@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
-RUN apt-get update \
-    && apt-get -y install nginx
+RUN apt update \
+    && apt -y install nginx
 
 EXPOSE 80
 EXPOSE 443
