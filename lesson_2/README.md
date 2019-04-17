@@ -179,7 +179,50 @@ $ git commit -a -m 'added a new footer ISS-53'
 
 ![git6](img/git6.png)
 
-А теперь мы решаем переключится назад, чтобы внести правки в основной ветке проекта (чего на самом деле делать крайне не желательно :wink:)
+И тут прибегает ПМ и говорит, что нужно срочно сделать маленькую правку. Вы переключаетесь на основную ветку
 
- 
+```
+$ git checkout master
+Switched to branch 'master'
+```
+Сейчас ваш рабочий проект вернется к состоянию, в котором он был в момент последнего коммита в ветку *master*.
+
+Теперь можем перейти к написанию исправления. Для этого создадим новую ветку, в которой будем работать, пока не закончим исправление.
+
+```
+$ git checkout -b hotfix
+Switched to a new branch 'hotfix'
+...
+$ git commit -a -m 'fixed'
+[hotfix 1fb7853] fixed
+ 1 file changed, 2 insertions(+)
+```
+
+![git7](img/git7.png)
+
+Проверяем, все работает как надо. Теперь нужно применить эти изменения для ветки *master*. Для этого необходимо выполнить слияние веток.
+
+Делается это командой `git merge`
+
+```
+$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast-forward
+ index.html | 2 ++
+ 1 file changed, 2 insertions(+)
+```
+
+![git8](img/git8.png)
+
+Отлично, хотфикс внедрили. Теперь нужно прибраться за собой. Удалим ветку *hotfix* за ненадобностью. 
+
+```
+$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).
+``` 
+
+
+
+
 
