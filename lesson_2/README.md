@@ -152,6 +152,15 @@ $ git pull origin master
 
 ### Основы ветвления и слияния
 
+Команда `git branch` выводит список веток
+
+```
+$ git branch
+  dev
+* master
+  testing
+```
+
 Предположим, вы работаете над проектом и у вас уже есть несколько коммитов.
 
 ![git4](img/git4.png)
@@ -209,8 +218,8 @@ $ git checkout master
 $ git merge hotfix
 Updating f42c576..3a0874c
 Fast-forward
- index.html | 2 ++
- 1 file changed, 2 insertions(+)
+index.html | 2 ++
+1 file changed, 2 insertions(+)
 ```
 
 ![git8](img/git8.png)
@@ -222,7 +231,116 @@ $ git branch -d hotfix
 Deleted branch hotfix (3a0874c).
 ``` 
 
+Теперь вернeмся к работе над своей задачей:
 
+```
+$ git checkout iss53
+Switched to branch "iss53"
+...
+$ git commit -a -m 'finished the new footer ISS-53'
+[iss53 ad82d7a] finished the new footer ISS-53
+1 file changed, 1 insertion(+)
+```
 
+![git9](img/git9.png)
 
+Закончили с задачей и теперь хотим залить свои изменения в основную ветку. Выполняем такие же манипуляции, как и с веткой *hotfix*
+
+```
+$ git checkout master
+Switched to branch 'master'
+$ git merge iss53
+Merge made by the 'recursive' strategy.
+index.html |    1 +
+1 file changed, 1 insertion(+)
+```
+
+Гит в этом случае автоматически сделает так называемый коммит слияния.
+
+![git10](img/git10.png)
+
+И опять уборка:
+
+```
+$ git branch -d iss53
+```
+
+### Ахтунг - конфликты
+
+Если вы изменили одну и ту же часть одного и того же файла по-разному в двух объединяемых ветках, Git не сможет их чисто объединить.
+
+Допустим, что мы в ветке *iss53* изменили ту же часть файла, что и в ветке *hotfix*. Тогда при слиянии ветки *master* с веткой *iss53* возникнет конфликт.
+
+```
+$ git merge iss53
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+Итак, закатываем рукава и идем править конфликты. Чтобы в любой момент после мерджа увидеть файлы с конфликтами можно выполнить команду `git status`
+
+```
+$ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+    both modified:      index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+``` 
+
+Посмотрим что же из себя представляет конфликт. Откроем файл *index.html* и здравствуй елка, Новый год:
+
+```
+<<<<<<< HEAD:index.html
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+ please contact us at support@github.com
+</div>
+>>>>>>> iss53:index.html
+```
+
+Заменяем елочку на правильный вариант
+
+```
+<div id="footer">
+ please contact us at support@github.com
+</div>
+```
+
+либо придумываем что-то новенькое
+
+```
+<div id="footer">
+please <a href="mailto:email.support@github.com">contact us</a> 
+</div>
+```
+
+Разрешив каждый конфликт во всех файлах, запустите `git add` для каждого файла, чтобы отметить конфликт как решенный. Подготовка (staging) файла помечает его для Git как разрешенный конфликт.
+
+```
+$ git status
+On branch master
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+
+    modified:   index.html
+```
+
+Создадим коммит слияния:
+
+```
+$ git commit -m "iss53 merged into master"
+```
+___
+
+[Учебник Git](https://git-scm.com/book/ru/v2/)
 
