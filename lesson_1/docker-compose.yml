@@ -5,8 +5,8 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - 8081:80
-      - 8082:443
+      - 8980:80
+      - 8943:443
     volumes:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./docker/nginx/ssl:/etc/nginx/ssl

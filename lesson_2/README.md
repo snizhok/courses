@@ -51,7 +51,7 @@ $ git config --global user.email "jdoe@mail.com"
 
 ```
 $ git config user.name "John Doe"
-$ git config user.name "John Doe"
+$ git config user.email "jdoe@mail.com"
 ```
 
 ### Инициализация репозитория
