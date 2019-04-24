@@ -1,12 +1,7 @@
 <?php
 
-function test(&$c)
-{
-    static $b = 0;
-    $b = &$c;
-    echo $b;
-}
-$c = 2;
-test($c);
-$c =3;
-test($c);
+define("HELLO_WORLD", 1+25*10);
+
+const HELLO_WORLD1 = 1+25*10;
+
+var_dump(HELLO_WORLD, HELLO_WORLD1);
